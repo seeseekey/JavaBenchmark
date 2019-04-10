@@ -222,4 +222,76 @@ public class ElementFromListTests {
         logger.info("Time in seconds (total): " + stopWatch.getSeconds());
         logger.info("Time in seconds (per run): " + decimalFormat.format(stopWatch.getSeconds() / runs));
     }
+
+    /**
+     * Parallel stream list, find first and get element
+     */
+    @Test
+    void testParallelStreamListAndFindFirst() {
+
+        // Init
+        List<Element> elements = getElements();
+        StopWatch stopWatch = new StopWatch();
+
+        // Benchmarking
+        stopWatch.start();
+
+        // Get element via stream api
+        Element specificElement = null;
+
+        for (int i = 0; i < runs; i++) {
+            specificElement = elements.parallelStream()
+                    .filter(element -> "Huhn".equals(element.Key))
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        stopWatch.stop();
+
+        // Output
+        logger.info("");
+        logger.info("Parallel stream list and find first");
+
+        logger.info("Element key: " + specificElement.Key);
+        logger.info("Element value: " + specificElement.Value);
+
+        logger.info("Time in seconds (total): " + stopWatch.getSeconds());
+        logger.info("Time in seconds (per run): " + decimalFormat.format(stopWatch.getSeconds() / runs));
+    }
+
+    /**
+     * Parallel stream list, find any and get element
+     */
+    @Test
+    void testParallelStreamListAndFindAny() {
+
+        // Init
+        List<Element> elements = getElements();
+        StopWatch stopWatch = new StopWatch();
+
+        // Benchmarking
+        stopWatch.start();
+
+        // Get element via stream api
+        Element specificElement = null;
+
+        for (int i = 0; i < runs; i++) {
+            specificElement = elements.parallelStream()
+                    .filter(element -> "Huhn".equals(element.Key))
+                    .findAny()
+                    .orElse(null);
+        }
+
+        stopWatch.stop();
+
+        // Output
+        logger.info("");
+        logger.info("Parallel stream list and find any");
+
+        logger.info("Element key: " + specificElement.Key);
+        logger.info("Element value: " + specificElement.Value);
+
+        logger.info("Time in seconds (total): " + stopWatch.getSeconds());
+        logger.info("Time in seconds (per run): " + decimalFormat.format(stopWatch.getSeconds() / runs));
+    }
 }
