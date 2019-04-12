@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -68,7 +69,6 @@ public class ElementFromListTests {
         return elements;
     }
 
-
     /**
      * Iterate list without for each and get element
      */
@@ -103,6 +103,50 @@ public class ElementFromListTests {
         // Output
         logger.info("");
         logger.info("Iterate list (without for each)");
+
+        logger.info("Element key: " + specificElement.Key);
+        logger.info("Element value: " + specificElement.Value);
+
+        logger.info("Time in seconds (total): " + stopWatch.getSeconds());
+        logger.info("Time in seconds (per run): " + decimalFormat.format(stopWatch.getSeconds() / runs));
+    }
+
+    /**
+     * Iterate list without for each and get element
+     */
+    @Test
+    void testIterateListWithIterator() {
+
+        // Init
+        List<Element> elements = getElements();
+        StopWatch stopWatch = new StopWatch();
+
+        // Benchmarking
+        stopWatch.start();
+
+        // Get element
+        Element specificElement = null;
+
+        for (int i = 0; i < runs; i++) {
+
+            Iterator<Element> iterator = elements.iterator();
+
+            while(iterator.hasNext()) {
+
+                Element element = iterator.next();
+
+                if ("Huhn".equals(element.Key)) {
+                    specificElement = element;
+                    break;
+                }
+            }
+        }
+
+        stopWatch.stop();
+
+        // Output
+        logger.info("");
+        logger.info("Iterate list (with iterator)");
 
         logger.info("Element key: " + specificElement.Key);
         logger.info("Element value: " + specificElement.Value);
